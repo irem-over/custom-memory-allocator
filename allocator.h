@@ -15,6 +15,7 @@ struct BlockHeader {
 
 int init_memory_pool(void);
 void *my_malloc(size_t requested_size);
+void my_free(void *target_pointer);
 void dump_memory_state(void);
 
 #endif
