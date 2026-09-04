@@ -1,3 +1,4 @@
+cat << 'EOF' > README.md
 # Custom Memory Allocator
 
 A minimal dynamic memory allocator implementation in C11. It bypasses the standard library runtime (`malloc` and `free`) and requests raw memory pages directly from the operating system kernel via `mmap`.
