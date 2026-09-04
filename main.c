@@ -5,32 +5,20 @@
 int main(void) {
     printf("Starting custom memory allocator test...\n");
 
+    int *numbers = (int *)my_malloc(5 * sizeof(int));
+    char *text = (char *)my_malloc(64 * sizeof(char));
+
+    printf("Initial Allocation State:");
     dump_memory_state();
 
-    int *numbers = (int *)my_malloc(5 * sizeof(int));
-    if (numbers == NULL) {
-        printf("Allocation failed for numbers.\n");
-        return -1;
-    }
+    printf("Freeing 'text pointer...\n");
+    my_free(text);
+    text = NULL;
+    dump_memory_state();
 
-    for (size_t index = 0; index < 5; index++) {
-        numbers[index] = (int)(index * 10);
-    }
-
-    char *text = (char *)my_malloc(64 * sizeof(char));
-    if (text == NULL) {
-        printf("Allocation failed for text.\n");
-        return -1;
-    }
-
-    strcpy(text, "Embedded Systems and Low-lwvwl Architecture");
-
-    printf("Payload Data Verification:\n");
-    for (size_t index = 0; index < 5; index++) {
-        printf("numbers[%zu] = %d\n", index, numbers[index]);
-    }
-    printf("text string = %s\n", text);
-
+    printf("Freeing 'numbers' pointer...\n");
+    my_free(numbers);
+    numbers = NULL;
     dump_memory_state();
 
     return 0;
