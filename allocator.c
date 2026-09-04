@@ -96,3 +96,26 @@ void dump_memory_state(void) {
     printf("=========================\n\n");
 }
 
+void my_free(void *target_pointer) {
+    if (target_pointer == NULL) {
+        return;
+    }
+
+    uint8_t *raw_byte_ptr = (uint8_t *)target_pointer;
+    struct BlockHeader *block_to_free = (struct BlockHeader *)(raw_byte_ptr - sizeof(struct BlockHeader));
+
+    block_to_free->is_free = 1;
+
+    struct BlockHeader *current_block = free_list_head;
+
+    while (current_block != NULL) {
+        if (current_block->is_free && current_block->next != NULL && current_block->next->is_free) {
+            current_block->size = current_block->size + sizeof(struct BlockHeader) + current_block->next->size;
+            current_block->next = current_block->next->next;
+            continue;
+        }
+
+        current_block = current_block->next;
+    }
+}
+
